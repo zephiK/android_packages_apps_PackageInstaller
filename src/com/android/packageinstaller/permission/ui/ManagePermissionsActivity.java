@@ -20,7 +20,9 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import com.android.packageinstaller.permission.utils.Utils;
+
+import com.android.packageinstaller.permission.ui.wear.AppPermissionsFragmentWear;
+import com.android.packageinstaller.DeviceUtils;
 
 public final class ManagePermissionsActivity extends OverlayTouchActivity {
     private static final String LOG_TAG = "ManagePermissionsActivity";
@@ -38,7 +40,7 @@ public final class ManagePermissionsActivity extends OverlayTouchActivity {
 
         switch (action) {
             case Intent.ACTION_MANAGE_PERMISSIONS: {
-                if (Utils.isTelevision(this)) {
+                if (DeviceUtils.isTelevision(this)) {
                     fragment = com.android.packageinstaller.permission.ui.television
                             .ManagePermissionsFragment.newInstance();
                 } else {
@@ -54,7 +56,9 @@ public final class ManagePermissionsActivity extends OverlayTouchActivity {
                     finish();
                     return;
                 }
-                if (Utils.isTelevision(this)) {
+                if (DeviceUtils.isWear(this)) {
+                    fragment = AppPermissionsFragmentWear.newInstance(packageName);
+                } else if (DeviceUtils.isTelevision(this)) {
                     fragment = com.android.packageinstaller.permission.ui.television
                             .AppPermissionsFragment.newInstance(packageName);
                 } else {
@@ -70,7 +74,7 @@ public final class ManagePermissionsActivity extends OverlayTouchActivity {
                     finish();
                     return;
                 }
-                if (Utils.isTelevision(this)) {
+                if (DeviceUtils.isTelevision(this)) {
                     fragment = com.android.packageinstaller.permission.ui.television
                             .PermissionAppsFragment.newInstance(permissionName);
                 } else {
